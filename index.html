@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recharge Portal</title>
+
+  <!-- Razorpay Script -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      text-align: center;
+      color: #333;
+    }
+
+    .container {
+      background: #fff;
+      padding: 20px;
+      margin: 50px auto;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    input, select {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #007bff;
+      color: #fff;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      width: 95%;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>Mobile Recharge</h2>
+
+    <input type="text" id="mobile" placeholder="Enter Mobile Number" maxlength="10">
+
+    <select id="operator">
+      <option value="">Select Operator</option>
+      <option>Jio</option>
+      <option>Airtel</option>
+      <option>Vi</option>
+      <option>BSNL</option>
+    </select>
+
+    <input type="number" id="amount" placeholder="Enter Amount">
+
+    <button onclick="payNow()">Recharge Now</button>
+  </div>
+
+  <script>
+    function payNow() {
+
+      var mobile = document.getElementById("mobile").value;
+      var operator = document.getElementById("operator").value;
+      var amount = document.getElementById("amount").value;
+
+      if(mobile == "" || operator == "" || amount == "") {
+        alert("Please fill all fields");
+        return;
+      }
+
+      var options = {
+        "key": "csrhhvDg84QXaqDHiQ2BBaah", // 🔥 यहाँ अपनी Razorpay Key डालो
+        "amount": amount * 100,
+        "currency": "INR",
+        "name": "Recharge Portal",
+        "description": "Mobile Recharge",
+        "handler": function (response){
+            alert("Payment Successful\nPayment ID: " + response.razorpay_payment_id);
+        },
+        "prefill": {
+            "contact": mobile
+        },
+        "theme": {
+            "color": "#007bff"
+        }
+      };
+
+      var rzp1 = new Razorpay(options);
+      rzp1.open();
+    }
+  </script>
+
+</body>
+</html>
